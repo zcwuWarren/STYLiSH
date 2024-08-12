@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Product</title>
+</head>
+<body>
+<h2>Select Product</h2>
+<form action="/marketing/campaigns" id="campaignForm" enctype="multipart/form-data" method="POST">
+    <label for="productId">Choose a product:</label>
+    <select id="productId" name="productId" required></select>
+
+    <label for="picture">Picture:</label>
+    <input type="file" id="picture" name="picture" required>
+
+    <label for="story">Story:</label>
+    <textarea id="story" name="story" required></textarea>
+
+    <button type="submit">Add Campaign</button>
+</form>
+
+<script>
+    function fetchProducts() {
+        fetch('/marketing/products')
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(function (products) {
+                console.log('Fetched products:', products); // Debugging log
+                const select = document.getElementById('productId');
+                products.forEach(function (product) {
+                    const option = document.createElement('option');
+                    option.value = product.productId;
+                    option.textContent = product.productId;
+                    select.appendChild(option);
+                });
+            })
+            .catch(function (error) {
+                console.error('Error fetching product data:', error);
+            });
+    }
+
+    fetchProducts();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit Title</title>
+</head>
+<body>
+<h2>Product management</h2>
+<form id="productForm" action="/productManaging" method="POST" enctype="multipart/form-data">
+    <h3>Product</h3>
+    <label for="id">Product ID:</label>
+    <input type="text" id="id" name="id" placeholder="int"><br>
+
+    <label for="category">Category:</label>
+    <input type="text" id="category" name="category" placeholder="not null"><br>
+
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" placeholder="not null"><br>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" placeholder="not null"><br>
+
+    <label for="price">Price:</label>
+    <input type="text" id="price" name="price" placeholder="int"><br>
+
+    <label for="texture">Texture:</label>
+    <input type="text" id="texture" name="texture" placeholder="not null"><br>
+
+    <label for="wash">Wash:</label>
+    <input type="text" id="wash" name="wash" placeholder="not null"><br>
+
+    <label for="place">Place:</label>
+    <input type="text" id="place" name="place" placeholder="not null"><br>
+
+    <label for="note">Note:</label>
+    <input type="text" id="note" name="note" placeholder="not null"><br>
+
+    <label for="story">Story:</label>
+    <input type="text" id="story" name="story" placeholder="not null"><br>
+
+    <label for="mainFile">main_image:</label>
+    <input type="file" id="mainFile" name="mainFile" placeholder="not null"><br>
+
+    <h2>Color</h2>
+    <label for="colorName">Color Name:</label>
+    <input type="text" id="colorName" name="colorName" placeholder="unique"><br>
+
+    <label for="colorCode">Color Code:</label>
+    <input type="text" id="colorCode" name="colorCode" placeholder="unique"><br>
+
+    <h2>Size</h2>
+    <label for="sizeId">Product ID:</label>
+    <input type="text" id="sizeId" name="sizeId" placeholder="same as ProductID"><br>
+
+    <label for="sizeName">Size:</label>
+    <input type="text" id="sizeName" name="sizeName" placeholder="not null"><br>
+
+    <h2>Image</h2>
+    <label for="proId">Product ID:</label>
+    <input type="text" id="proId" name="proId" placeholder="same as ProductID"><br>
+
+    <label for="imageId">ImageID:</label>
+    <input type="text" id="imageId" name="imageId" placeholder="int"><br>
+
+    <!-- [TBfix] need to add multiple images upload -->
+    <label for="file">Image File:</label>
+    <input type="file" id="file" name="file" placeholder="not null" multiple><br>
+
+    <h2>Color Set</h2>
+    <label for="colorSetId">Product ID:</label>
+    <input type="text" id="colorSetId" name="colorSetId" placeholder="same as ProductID"><br>
+
+    <label for="colorSetCode">Color Code:</label>
+    <input type="text" id="colorSetCode" name="colorSetCode" placeholder="not null"><br>
+
+    <h2>Variant</h2>
+    <label for="variantId">Product ID:</label>
+    <input type="text" id="variantId" name="variantId" placeholder="same as ProductID"><br>
+
+    <label for="variantColorCode">Variant Color Code:</label>
+    <input type="text" id="variantColorCode" name="variantColorCode" placeholder="same as ColorSet"><br>
+
+    <label for="variantSize">Variant Size:</label>
+    <input type="text" id="variantSize" name="variantSize" placeholder="same as Size"><br>
+
+    <label for="stock">Stock:</label>
+    <input type="text" id="stock" name="stock" placeholder="not null"><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>

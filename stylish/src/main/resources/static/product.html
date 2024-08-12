@@ -1,0 +1,258 @@
+<!DoCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/product.css">
+    <title>Stylish</title>
+</head>
+<body>
+<header class="header">
+    <div id="div1" class="header-item">
+        <a href="index.html">
+            <img src="assets_images/logo.png" alt="Image 1" class="header-image">
+        </a>
+    </div>
+    <div id="div2" class="header-item">
+        <ul class="category">
+            <li><a href="index.html?category=women">女裝</a></li>
+            <li><a href="index.html?category=men">男裝</a></li>
+            <li><a href="index.html?category=accessories">配件</a></li>
+        </ul>
+    </div>
+    <div id="div3" class="header-item">
+        <img src="assets_images/search.png" alt="Image 3" class="header-image-search">
+    </div>
+    <div id="div4" class="header-item-div4">
+        <ul>
+            <li><img src="assets_images/cart.png" alt="Image 4A" class="header-image"></li>
+            <li>
+                <a href="profile.html">
+                    <img src="assets_images/member.png" alt="Image 4B" class="header-image">
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</header>
+
+<div class="black"></div>
+
+<div class="detail">
+    <div id="left-div" class="left-div"></div>
+    <div id="right-div" class="right-div"></div>
+</div>
+
+<div class="container-bottom">
+    <div id="linebreak" class="linebreak">細 部 說 明</div>
+    <div id="story" class="story"></div>
+    <div id="picture" class="picture"></div>
+</div>
+<div class="container-tappay">
+    <div class="jumbotron">
+        <h1>Checkout Page</h1>
+    </div>
+    <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+        </div>
+        <div class="form-group card-number-group">
+            <label for="card-number" class="control-label"><span id="cardtype"></span>卡號</label>
+            <div class="form-control card-number"></div>
+        </div>
+        <div class="form-group expiration-date-group">
+            <label for="expiration-date" class="control-label">卡片到期日</label>
+            <div class="form-control expiration-date" id="tappay-expiration-date"></div>
+        </div>
+        <div class="form-group ccv-group">
+            <label for="ccv" class="control-label">卡片後三碼</label>
+            <div class="form-control ccv"></div>
+        </div>
+
+        <button type="submit" class="btn btn-default">Pay</button>
+    </form>
+    <br>
+    <pre class="jumbotron text-left" id="curl"></pre>
+</div>
+
+
+<footer class="footer">
+    <div class="footer-left">
+        <ul class="left">
+            <li>關於 Stylish</li>
+            <li>服務條款</li>
+            <li>隱私政策</li>
+            <li>聯絡我們</li>
+            <li>FAQ</li>
+        </ul>
+    </div>
+    <div class="footer-right">
+        <ul class="right">
+            <li><img src="assets_images/line.png" alt="Image 1" class="footer-image"></li>
+            <li><img src="assets_images/twitter.png" alt="Image 2" class="footer-image"></li>
+            <li><img src="assets_images/facebook.png" alt="Image 3" class="footer-image"></li>
+            <li>2022. All rights reserved.</li>
+        </ul>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://js.tappaysdk.com/sdk/tpdirect/v5.18.0"></script>
+<script>
+    TPDirect.setupSDK(12348, 'app_pa1pQcKoY22IlnSXq5m5WP5jFKzoRG58VEXpT7wU62ud7mMbDOGzCYIlzzLF', 'sandbox')
+    TPDirect.card.setup({
+        fields: {
+            number: {
+                element: '.form-control.card-number',
+                placeholder: '**** **** **** ****'
+            },
+            expirationDate: {
+                element: document.getElementById('tappay-expiration-date'),
+                placeholder: 'MM / YY'
+            },
+            ccv: {
+                element: $('.form-control.ccv')[0],
+                placeholder: '後三碼'
+            }
+        },
+        styles: {
+            'input': {
+                'color': 'gray'
+            },
+            'input.ccv': {
+                // 'font-size': '16px'
+            },
+            ':focus': {
+                'color': 'black'
+            },
+            '.valid': {
+                'color': 'green'
+            },
+            '.invalid': {
+                'color': 'red'
+            },
+            '@media screen and (max-width: 400px)': {
+                'input': {
+                    'color': 'orange'
+                }
+            }
+        },
+        isMaskCreditCardNumber: true,
+        maskCreditCardNumberRange: {
+            beginIndex: 6,
+            endIndex: 11
+        }
+    });
+
+    $('form').on('submit', async function (event) {
+        event.preventDefault();
+
+        // Check if JWT token exists in localStorage
+        const token = localStorage.getItem('jwtToken');
+        if (!token) {
+            alert('Please login or signup first.');
+            window.location.href = 'profile.html';
+            return;
+        }
+
+
+        // Get TapPay prime
+        TPDirect.card.getPrime(async function (result) {
+            if (result.status !== 0) {
+                alert('Get prime error: ' + result.msg);
+                return;
+            }
+            // alert('get prime 成功，prime: ' + result.card.prime)
+
+            // Prepare the checkout API payload
+            const prime = result.card.prime;
+            const payload = {
+                prime: prime,
+                order: {
+                    shipping: "delivery",
+                    payment: "credit_card",
+                    subtotal: 1234,
+                    freight: 14,
+                    total: 1300,
+                    recipient: {
+                        name: "Warren",
+                        phone: "0900123456",
+                        email: "warren@gmail.com",
+                        address: "AppWorks School",
+                        time: "morning"
+                    },
+                    list: [
+                        {
+                            id: "2",
+                            name: "男裝 2",
+                            price: 1299,
+                            color: {
+                                code: "DDF0FF",
+                                name: "淺藍"
+                            },
+                            size: "M",
+                            qty: 1
+                        }
+                    ]
+                }
+            };
+            console.log(payload);
+
+            // Call checkout API
+            try {
+                const response = await fetch('http://54.168.221.156/api/1.0/order/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    window.location.href = 'thankyou.html';
+                } else {
+                    alert('Checkout failed: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Checkout failed, please try again.');
+            }
+        });
+    });
+
+    function setNumberFormGroupToError(selector) {
+        $(selector).addClass('has-error');
+        $(selector).removeClass('has-success');
+    }
+
+    function setNumberFormGroupToSuccess(selector) {
+        $(selector).removeClass('has-error');
+        $(selector).addClass('has-success');
+    }
+
+    function setNumberFormGroupToNormal(selector) {
+        $(selector).removeClass('has-error');
+        $(selector).removeClass('has-success');
+    }
+
+    function forceBlurIos() {
+        if (!isIos()) {
+            return;
+        }
+        var input = document.createElement('input');
+        input.setAttribute('type', 'text');
+        document.activeElement.prepend(input);
+        input.focus();
+        input.parentNode.removeChild(input);
+    }
+
+    function isIos() {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    }
+</script>
+<script src="js/product.js"></script>
+</body>
+</html>
